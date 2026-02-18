@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: "/investment-calculator",
-  assetPrefix: "/investment-calculator",
+  assetPrefix: "https://investment-calculator-one-wine.vercel.app",
 };
 
 export default nextConfig;
