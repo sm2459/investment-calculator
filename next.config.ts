@@ -23,7 +23,7 @@ const cspHeader = {
     "img-src 'self' data:; " +
     "font-src 'self'; " +
     "connect-src 'self' https://finnhub.io https://query2.finance.yahoo.com; " +
-    "frame-ancestors https://sethmelnick.com https://*.vercel.app; " +
+    "frame-ancestors https://sethmelnick.com https://www.sethmelnick.com https://*.vercel.app; " +
     "base-uri 'self'; " +
     "form-action 'self'",
 };
