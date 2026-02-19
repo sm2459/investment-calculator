@@ -376,47 +376,23 @@ export function getLowestFeePortfolio(
   return { lowestFee, lowestIndex };
 }
 
-// Fetch price with fallback APIs
+// Fetch price via server-side API route (keeps API keys private)
 export async function fetchPriceWithFallback(ticker: string): Promise<PriceResult> {
-  const finnhubKey = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
-
-  // Try Finnhub first
   try {
     const response = await fetch(
-      `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${finnhubKey}`,
-      { mode: 'cors' }
+      `/investment-calculator/api/stock-price?ticker=${encodeURIComponent(ticker)}`
     );
 
     if (response.ok) {
       const data = await response.json();
-      const quote = data?.c;
-      if (quote && quote > 0) {
-        return { success: true, price: parseFloat(quote.toFixed(2)), source: 'Finnhub' };
-      }
+      return data as PriceResult;
     }
+
+    const errorData = await response.json().catch(() => null);
+    return { success: false, error: errorData?.error || 'Could not fetch price' };
   } catch {
-    // Finnhub failed, try fallback
+    return { success: false, error: 'Could not fetch price from any source' };
   }
-
-  // Try Yahoo Finance as fallback
-  try {
-    const response = await fetch(
-      `https://query2.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`,
-      { mode: 'cors' }
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      const quote = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
-      if (quote) {
-        return { success: true, price: parseFloat(quote.toFixed(2)), source: 'Yahoo' };
-      }
-    }
-  } catch {
-    // Yahoo also failed
-  }
-
-  return { success: false, error: 'Could not fetch price from any source' };
 }
 
 // Format currency value
