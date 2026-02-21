@@ -503,7 +503,7 @@ export default function Calculator() {
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>This calculator is for educational purposes only. Past performance does not guarantee future results.</p>
-          <p className="mt-1">Always consult a qualified financial advisor before making investment decisions.</p>
+          <p className="mt-1">Results are estimates and may not reflect actual investment outcomes.</p>
         </div>
       </div>
     </div>
